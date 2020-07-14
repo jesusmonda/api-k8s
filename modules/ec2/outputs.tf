@@ -1,3 +1,3 @@
-output "rancher_public_ip" {
-    value = aws_instance.rancher.public_ip
+output "rancher_public_dns" {
+    value = aws_instance.rancher.public_dns
 }

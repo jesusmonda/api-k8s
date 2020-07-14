@@ -1,3 +1,3 @@
-output "rancher_public_ip" {
-    value = module.ec2.rancher_public_ip
+output "rancher_public_dns" {
+    value = module.ec2.rancher_public_dns
 }
