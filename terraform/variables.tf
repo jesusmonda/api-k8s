@@ -12,9 +12,6 @@ variable "region" {
 }
 
 variable "branch" {
-  type = string
-}
-
-variable "environment" {
-  type = string
+  type    = string
+  default = "kobing"
 }

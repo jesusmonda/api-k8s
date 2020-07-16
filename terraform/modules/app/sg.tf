@@ -1,6 +1,6 @@
-resource "aws_security_group" "rancher" {
-  name   = "${var.branch}:${var.environment}:rancher"
-  vpc_id = var.vpc_id
+resource "aws_security_group" "eks" {
+  name   = "${var.branch}:${var.environment}:eks"
+  vpc_id = aws_vpc.vpc.id
 
   ingress {
     from_port   = 80
@@ -24,6 +24,6 @@ resource "aws_security_group" "rancher" {
   }
 
   tags = {
-    Name = "${var.branch}:${var.environment}:rancher"
+    Name = "${var.branch}:${var.environment}:eks"
   }
 }

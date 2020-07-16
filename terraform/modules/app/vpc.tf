@@ -46,7 +46,8 @@ resource "aws_subnet" "public1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.branch}:${var.environment}:public"
+    Name = "${var.branch}:${var.environment}:public",
+    "kubernetes.io/cluster/${var.branch}-${var.environment}-eks-cluster" = "shared"
   }
 }
 resource "aws_subnet" "public2" {
@@ -56,7 +57,8 @@ resource "aws_subnet" "public2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.branch}:${var.environment}:public"
+    Name = "${var.branch}:${var.environment}:public",
+    "kubernetes.io/cluster/${var.branch}-${var.environment}-eks-cluster" = "shared"
   }
 }
 resource "aws_subnet" "public3" {
@@ -66,7 +68,8 @@ resource "aws_subnet" "public3" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.branch}:${var.environment}:public"
+    Name = "${var.branch}:${var.environment}:public",
+    "kubernetes.io/cluster/${var.branch}-${var.environment}-eks-cluster" = "shared"
   }
 }
 
