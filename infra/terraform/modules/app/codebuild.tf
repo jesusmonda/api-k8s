@@ -87,7 +87,7 @@ resource "aws_codebuild_project" "main" {
     privileged_mode = true
 
     environment_variable {
-      name  = "ENVIRONMENT"
+      name  = "NODE_ENV"
       value = var.environment
       type  = "PLAINTEXT"
     }

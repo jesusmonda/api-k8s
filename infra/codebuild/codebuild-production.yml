@@ -8,5 +8,5 @@ phases:
       - apt-get update
   build:
     commands:
-      - docker build -t jesusmonda/api:$ENVIRONMENT-$CODEBUILD_BUILD_NUMBER .
+      - docker build -t jesusmonda/api:$ENVIRONMENT-$CODEBUILD_BUILD_NUMBER ../../src/.
       - kubectl get pods

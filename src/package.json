@@ -1,0 +1,26 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "develop": "cross-env NODE_ENV=develop node index.js",
+    "lint:fix": "eslint . --fix --ignore-path .gitignore",
+    "lint:check": "eslint . --ignore-path .gitignore",
+    "prettier:fix": "prettier --write --ignore-path .gitignore .",
+    "prettier:check": "prettier --check --ignore-path .gitignore ."
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "prettier": "2.0.5"
+  },
+  "author": "",
+  "license": "ISC"
+}
