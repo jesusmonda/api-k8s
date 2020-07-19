@@ -1,0 +1,12 @@
+version: 0.2
+
+run-as: root
+
+phases:
+  install:
+    commands:
+      - apt-get update
+  build:
+    commands:
+      - docker build -t jesusmonda/api:$ENVIRONMENT-$CODEBUILD_BUILD_NUMBER .
+      - kubectl get pods

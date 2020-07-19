@@ -1,3 +1,14 @@
-access_key = ""
-secret_key = ""
-region     = "eu-west-1"
+aws = {
+    access_key   = ""
+    secret_key   = ""
+    region       = "eu-west-1"
+}
+
+config = {
+    project_name = ""
+    github_token = ""
+}
+
+environment_variable = {
+    name = "example"
+}

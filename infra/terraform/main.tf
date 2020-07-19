@@ -1,6 +1,8 @@
-module "develop" {
+module "production" {
   source = "./modules/app"
 
-  branch      = var.branch
-  environment = "develop"
+  environment  = "production"
+  branch       = "master"
+  config = var.config
+  environment_variable = var.environment_variable
 }

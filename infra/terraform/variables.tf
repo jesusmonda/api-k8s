@@ -1,17 +1,20 @@
-variable "access_key" {
-  type = string
+variable "aws" {
+  type = object({
+    access_key = string
+    secret_key = string
+    region = string
+  })
 }
 
-variable "secret_key" {
-  type = string
+variable "config" {
+  type = object({
+    project_name = string
+    github_token = string
+  })
 }
 
-variable "region" {
-  type    = string
-  default = "eu-west-1"
-}
-
-variable "branch" {
-  type    = string
-  default = "kobing"
+variable "environment_variable" {
+  type = object({
+    name = string
+  })
 }

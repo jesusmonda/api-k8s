@@ -1,5 +1,5 @@
 resource "aws_security_group" "eks" {
-  name   = "${var.branch}:${var.environment}:eks"
+  name   = "${var.config.project_name}:${var.environment}:eks"
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -24,6 +24,6 @@ resource "aws_security_group" "eks" {
   }
 
   tags = {
-    Name = "${var.branch}:${var.environment}:eks"
+    Name = "${var.config.project_name}:${var.environment}:eks"
   }
 }
