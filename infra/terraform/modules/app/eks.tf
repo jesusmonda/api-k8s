@@ -69,3 +69,11 @@ resource "aws_eks_node_group" "node" {
     min_size     = 1
   }
 }
+
+data "aws_eks_cluster" "eks_cluster" {
+  name = aws_eks_cluster.cluster.name
+}
+
+data "aws_eks_cluster" "eks_cluster" {
+  name = aws_eks_cluster.cluster.name
+}
