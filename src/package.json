@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "develop": "cross-env NODE_ENV=develop node index.js",
+    "develop": "cross-env ENVIRONMENT=develop node index.js",
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "lint:check": "eslint . --ignore-path .gitignore",
     "prettier:fix": "prettier --write --ignore-path .gitignore .",

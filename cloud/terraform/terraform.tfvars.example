@@ -1,0 +1,16 @@
+aws = {
+  access_key = ""
+  secret_key = ""
+  region     = "eu-west-1"
+}
+
+config = {
+  project_name = "kobing"
+  github_token = ""
+  docker_user = ""
+  docker_token = ""
+}
+
+environment_variable = {
+  name = "example"
+}

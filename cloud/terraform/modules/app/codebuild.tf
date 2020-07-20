@@ -1,5 +1,5 @@
 resource "aws_iam_role" "main" {
-  name = "${var.config.project_name}-${var.environment}-role"
+  name = "${var.config.project_name}-api-${var.environment}_codebuild"
 
   assume_role_policy = <<EOF
 {
@@ -37,6 +37,13 @@ resource "aws_iam_role_policy" "main" {
     },
     {
       "Effect": "Allow",
+      "Resource": "*",
+      "Action": [
+        "eks:DescribeCluster"
+      ]
+    },
+    {
+      "Effect": "Allow",
       "Action": [
         "ec2:CreateNetworkInterface",
         "ec2:DescribeDhcpOptions",
@@ -70,7 +77,7 @@ POLICY
 }
 
 resource "aws_codebuild_project" "main" {
-  name          = "${var.config.project_name}-${var.environment}"
+  name          = "${var.config.project_name}-api-${var.environment}"
   build_timeout = "10"
   queued_timeout = "60"
   service_role  = aws_iam_role.main.arn
@@ -86,15 +93,64 @@ resource "aws_codebuild_project" "main" {
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode = true
 
+    // K8S MANIFEST
+    environment_variable {
+      name  = "PROJECT_NAME"
+      value = var.config.project_name
+      type  = "PLAINTEXT"
+    }
+
+    // CODEBUILD
+    environment_variable {
+      name  = "ENVIRONMENT"
+      value = var.environment
+      type  = "PLAINTEXT"
+    }
+    environment_variable {
+      name  = "DOCKER_USER"
+      value = var.config.docker_user
+      type  = "PLAINTEXT"
+    }
+
+    environment_variable {
+      name  = "DOCKER_TOKEN"
+      value = var.config.docker_token
+      type  = "PLAINTEXT"
+    }
+
+    environment_variable {
+      name  = "AWS_ACCESS_KEY"
+      value = var.aws.access_key
+      type  = "PLAINTEXT"
+    }
+
+    environment_variable {
+      name  = "AWS_SECRET_KEY"
+      value = var.aws.secret_key
+      type  = "PLAINTEXT"
+    }
+  
+    environment_variable {
+      name  = "AWS_REGION"
+      value = var.aws.region
+      type  = "PLAINTEXT"
+    }
+    
+    environment_variable {
+      name  = "AWS_CLUSTER_NAME"
+      value = var.eks_cluster_name
+      type  = "PLAINTEXT"
+    }
+  
+    // ENVIRONMENT API
     environment_variable {
       name  = "NODE_ENV"
       value = var.environment
       type  = "PLAINTEXT"
     }
-
     environment_variable {
-      name  = "NAME"
-      value = var.environment_variable.name
+      name  = "APP_NAME"
+      value = var.environment_variable.app_name
       type  = "PLAINTEXT"
     }
   }
@@ -103,10 +159,8 @@ resource "aws_codebuild_project" "main" {
     type            = "GITHUB"
     location        = "https://github.com/jesusmonda/terraform-rancher.git"
     git_clone_depth = 25
-    buildspec = "infra/codebuild/codebuild-${var.environment}.yml"
+    buildspec = "cloud/codebuild/codebuild-${var.environment}.yml"
   }
-
-  source_version = "refs/heads/${var.branch}"
 }
 resource "aws_codebuild_webhook" "main" {
   project_name = aws_codebuild_project.main.name
@@ -115,6 +169,11 @@ resource "aws_codebuild_webhook" "main" {
     filter {
       type    = "EVENT"
       pattern = "PUSH"
+    }
+
+    filter {
+      type    = "HEAD_REF"
+      pattern = "refs/heads/master"
     }
   }
 }

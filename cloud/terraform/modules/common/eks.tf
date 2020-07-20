@@ -1,6 +1,6 @@
 // CLUSTER
 resource "aws_iam_role" "eks_cluster" {
-  name = "${var.config.project_name}-${var.environment}-eks-cluster"
+  name = "${var.config.project_name}_eks-cluster"
 
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -20,7 +20,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster" {
   role       = aws_iam_role.eks_cluster.name
 }
 resource "aws_eks_cluster" "cluster" {
-  name     = "${var.config.project_name}-${var.environment}-eks-cluster"
+  name     = "${var.config.project_name}_eks-cluster"
   role_arn = aws_iam_role.eks_cluster.arn
 
   vpc_config {
@@ -30,7 +30,7 @@ resource "aws_eks_cluster" "cluster" {
 
 // NODE
 resource "aws_iam_role" "eks_node" {
-  name = "${var.config.project_name}-${var.environment}-eks-node"
+  name = "${var.config.project_name}_eks-node"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -59,7 +59,7 @@ resource "aws_iam_role_policy_attachment" "eks_node-AmazonEC2ContainerRegistryRe
 }
 resource "aws_eks_node_group" "node" {
   cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "${var.config.project_name}-${var.environment}-eks-node"
+  node_group_name = "${var.config.project_name}_eks-node"
   node_role_arn   = aws_iam_role.eks_node.arn
   subnet_ids      = [aws_subnet.public1.id, aws_subnet.public2.id, aws_subnet.public3.id]
 

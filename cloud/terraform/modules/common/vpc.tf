@@ -5,7 +5,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}"
+    Name = "${var.config.project_name}"
   }
 }
 
@@ -16,7 +16,7 @@ resource "aws_subnet" "private1" {
   cidr_block        = "10.0.1.0/24"
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:private"
+    Name = "${var.config.project_name}_private"
   }
 }
 resource "aws_subnet" "private2" {
@@ -25,7 +25,7 @@ resource "aws_subnet" "private2" {
   cidr_block        = "10.0.2.0/24"
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:private"
+    Name = "${var.config.project_name}_private"
   }
 }
 resource "aws_subnet" "private3" {
@@ -34,7 +34,7 @@ resource "aws_subnet" "private3" {
   cidr_block        = "10.0.3.0/24"
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:private"
+    Name = "${var.config.project_name}_private"
   }
 }
 
@@ -46,8 +46,8 @@ resource "aws_subnet" "public1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:public",
-    "kubernetes.io/cluster/${var.config.project_name}-${var.environment}-eks-cluster" = "shared"
+    Name = "${var.config.project_name}_public",
+    "kubernetes.io/cluster/${var.config.project_name}_eks-cluster" = "shared"
   }
 }
 resource "aws_subnet" "public2" {
@@ -57,8 +57,8 @@ resource "aws_subnet" "public2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:public",
-    "kubernetes.io/cluster/${var.config.project_name}-${var.environment}-eks-cluster" = "shared"
+    Name = "${var.config.project_name}_public",
+    "kubernetes.io/cluster/${var.config.project_name}_eks-cluster" = "shared"
   }
 }
 resource "aws_subnet" "public3" {
@@ -68,8 +68,8 @@ resource "aws_subnet" "public3" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:public",
-    "kubernetes.io/cluster/${var.config.project_name}-${var.environment}-eks-cluster" = "shared"
+    Name = "${var.config.project_name}_public",
+    "kubernetes.io/cluster/${var.config.project_name}_eks-cluster" = "shared"
   }
 }
 
@@ -78,7 +78,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}"
+    Name = "${var.config.project_name}"
   }
 }
 
@@ -87,7 +87,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:private"
+    Name = "${var.config.project_name}_private"
   }
 }
 resource "aws_route_table" "public" {
@@ -99,7 +99,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.config.project_name}:${var.environment}:public"
+    Name = "${var.config.project_name}_public"
   }
 }
 resource "aws_main_route_table_association" "main" {
@@ -134,3 +134,5 @@ resource "aws_route_table_association" "public3" {
   subnet_id      = aws_subnet.public3.id
   route_table_id = aws_route_table.public.id
 }
+
+// NAT GATEWAY
