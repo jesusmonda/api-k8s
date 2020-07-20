@@ -12,5 +12,5 @@ config = {
 }
 
 environment_variable = {
-  name = "example"
+  app_name = "example"
 }
