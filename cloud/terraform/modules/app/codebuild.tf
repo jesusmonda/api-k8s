@@ -107,6 +107,11 @@ resource "aws_codebuild_project" "main" {
       type  = "PLAINTEXT"
     }
     environment_variable {
+      name  = "BRANCH"
+      value = var.branch
+      type  = "PLAINTEXT"
+    }
+    environment_variable {
       name  = "DOCKER_USER"
       value = var.config.docker_user
       type  = "PLAINTEXT"
@@ -157,7 +162,7 @@ resource "aws_codebuild_project" "main" {
 
   source {
     type            = "GITHUB"
-    location        = "https://github.com/jesusmonda/terraform-rancher.git"
+    location        = "https://github.com/jesusmonda/api-k8s.git"
     git_clone_depth = 25
     buildspec = "cloud/codebuild/codebuild-${var.environment}.yml"
   }
@@ -173,10 +178,11 @@ resource "aws_codebuild_webhook" "main" {
 
     filter {
       type    = "HEAD_REF"
-      pattern = "refs/heads/master"
+      pattern = "refs/heads/${var.branch}"
     }
   }
 }
+
 resource "aws_codebuild_source_credential" "main" {
   auth_type   = "PERSONAL_ACCESS_TOKEN"
   server_type = "GITHUB"
