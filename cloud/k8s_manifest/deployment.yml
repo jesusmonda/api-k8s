@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${PROJECT_NAME}-api-${CODEBUILD_WEBHOOK_TRIGGER}
+  name: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
   namespace: ${ENVIRONMENT}
   labels:
-    app: ${PROJECT_NAME}-api-${CODEBUILD_WEBHOOK_TRIGGER}
+    app: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${PROJECT_NAME}-api-${CODEBUILD_WEBHOOK_TRIGGER}
+      app: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
   template:
     metadata:
       labels:
-        app: ${PROJECT_NAME}-api-${CODEBUILD_WEBHOOK_TRIGGER}
+        app: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
     spec:
       containers:
       - name: api
-        image: jesusmonda/api:${ENVIRONMENT}-${CODEBUILD_WEBHOOK_TRIGGER}
+        image: jesusmonda/api:${ENVIRONMENT}${CODEBUILD_WEBHOOK_TRIGGER}
         envFrom:
         - configMapRef:
             name: config-${ENVIRONMENT}
@@ -27,11 +27,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${PROJECT_NAME}-api-${CODEBUILD_WEBHOOK_TRIGGER}
+  name: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
   namespace: ${ENVIRONMENT}
 spec:
   selector:
-    app: ${PROJECT_NAME}-api-${CODEBUILD_WEBHOOK_TRIGGER}
+    app: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
   type: LoadBalancer
   ports:
     - protocol: TCP

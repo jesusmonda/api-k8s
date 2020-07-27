@@ -3,7 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - export CODEBUILD_WEBHOOK_TRIGGER=`echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/branch\/\|feature\///g'` # set CODEBUILD_WEBHOOK_TRIGGER
+      # set branch/master -> ,branch/release -> ,branch/develop -> ,branch/feature/post -> -post
+      - export CODEBUILD_WEBHOOK_TRIGGER=`echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/branch\/master\|branch\/release\|branch\/develop//g; s/branch\/feature\//-/g'`
 
   build:
     commands:
