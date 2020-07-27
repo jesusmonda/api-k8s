@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: jesusmonda/api:${ENVIRONMENT}${CODEBUILD_WEBHOOK_TRIGGER}
+        image: jesusmonda/api:${ENVIRONMENT}-${CODEBUILD_BUILD_NUMBER}
         envFrom:
         - configMapRef:
             name: config-${ENVIRONMENT}
