@@ -99,16 +99,11 @@ resource "aws_codebuild_project" "main" {
       value = var.config.project_name
       type  = "PLAINTEXT"
     }
-
+  
     // CODEBUILD
     environment_variable {
       name  = "ENVIRONMENT"
       value = var.environment
-      type  = "PLAINTEXT"
-    }
-    environment_variable {
-      name  = "BRANCH"
-      value = var.branch
       type  = "PLAINTEXT"
     }
     environment_variable {
@@ -146,25 +141,13 @@ resource "aws_codebuild_project" "main" {
       value = var.eks_cluster_name
       type  = "PLAINTEXT"
     }
-  
-    // ENVIRONMENT API
-    environment_variable {
-      name  = "NODE_ENV"
-      value = var.environment
-      type  = "PLAINTEXT"
-    }
-    environment_variable {
-      name  = "APP_NAME"
-      value = var.environment_variable.app_name
-      type  = "PLAINTEXT"
-    }
   }
 
   source {
     type            = "GITHUB"
     location        = "https://github.com/jesusmonda/api-k8s.git"
     git_clone_depth = 25
-    buildspec = "cloud/codebuild/codebuild-${var.environment}.yml"
+    buildspec = "cloud/codebuild/codebuild.yml"
   }
 }
 resource "aws_codebuild_webhook" "main" {
