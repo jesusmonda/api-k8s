@@ -1,5 +1,5 @@
 resource "aws_security_group" "eks" {
-  name   = "${var.config.project_name}_eks"
+  name   = "${local.secretsmanager.project_name}_eks"
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -24,6 +24,10 @@ resource "aws_security_group" "eks" {
   }
 
   tags = {
-    Name = "${var.config.project_name}_eks"
+    Name = "${local.secretsmanager.project_name}_eks"
   }
+}
+
+data "aws_security_group" "default" {
+  name = "default"
 }

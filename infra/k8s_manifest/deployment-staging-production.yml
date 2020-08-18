@@ -32,8 +32,27 @@ metadata:
 spec:
   selector:
     app: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
-  type: LoadBalancer
+  type: NodePort
   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
+  namespace: ${ENVIRONMENT}
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: ${DOMAIN}
+spec:
+  rules:
+  - host: ${DOMAIN}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
+          servicePort: 80

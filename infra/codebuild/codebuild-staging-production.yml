@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      # set branch/master -> ,branch/release -> ,branch/develop -> develop,branch/feature/post -> -post
+      - export CODEBUILD_WEBHOOK_TRIGGER=`echo $CODEBUILD_WEBHOOK_TRIGGER | sed 's/branch\/master\|branch\/release\|branch\///g; s/branch\/feature\//-/g'`
+
+  build:
+    commands:
+
+      # build_push:
+      - docker build -t jesusmonda/api:${ENVIRONMENT}-${CODEBUILD_BUILD_NUMBER} src/.
+      - docker login -u ${DOCKER_USER} -p ${DOCKER_TOKEN}
+      - docker push jesusmonda/api:${ENVIRONMENT}-${CODEBUILD_BUILD_NUMBER}
+
+      # create_deployment:
+      - apt update && apt install -y moreutils
+      - envsubst < infra/k8s_manifest/deployment-staging-production.yml | sponge infra/k8s_manifest/deployment-staging-production.yml
+      - envsubst < infra/k8s_manifest/alb-ingress-controller.yml | sponge infra/k8s_manifest/alb-ingress-controller.yml
+
+      # eks_credential:
+      - aws eks update-kubeconfig --name ${AWS_CLUSTER_NAME}
+
+      # show documents
+      - cat infra/k8s_manifest/alb-ingress-controller.yml
+      - cat infra/k8s_manifest/deployment-staging-production.yml
+
+      # kubectl_apply:
+      - kubectl apply -f infra/k8s_manifest/alb-ingress-controller.yml
+      - kubectl apply -f infra/k8s_manifest/deployment-staging-production.yml
