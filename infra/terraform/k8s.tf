@@ -8,6 +8,8 @@ resource "kubernetes_config_map" "develop" {
     NODE_ENV = "develop"
     APP_NAME = "app_kobing"
   }
+
+  depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
 }
 
 resource "kubernetes_config_map" "production" {
@@ -20,6 +22,8 @@ resource "kubernetes_config_map" "production" {
     NODE_ENV = "production"
     APP_NAME = "app_kobing"
   }
+
+  depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
 }
 
 resource "kubernetes_config_map" "feature" {
@@ -32,6 +36,8 @@ resource "kubernetes_config_map" "feature" {
     NODE_ENV = "feature"
     APP_NAME = "app_kobing"
   }
+
+  depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
 }
 
 resource "kubernetes_config_map" "staging" {
@@ -44,6 +50,8 @@ resource "kubernetes_config_map" "staging" {
     NODE_ENV = "staging"
     APP_NAME = "app_kobing"
   }
+
+  depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
 }
 
 resource "kubernetes_config_map" "role" {
@@ -62,9 +70,9 @@ resource "kubernetes_config_map" "role" {
 }
 
 resource "kubectl_manifest" "rbac-role" {
-    yaml_body = file("../k8s_manifest/rbac-role.yml")
+  yaml_body = file("../k8s_manifest/rbac-role.yml")
 }
 
 resource "kubectl_manifest" "external-dns" {
-    yaml_body = file("../k8s_manifest/external-dns.yml")
+  yaml_body = file("../k8s_manifest/external-dns.yml")
 }

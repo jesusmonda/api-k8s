@@ -1,8 +1,8 @@
 resource "aws_codebuild_project" "main" {
-  name           = "${var.module_common.secretsmanager.project_name}-api-${var.environment}"
+  name           = "${var.data_resources.project_name}-api-${var.environment}"
   build_timeout  = "10"
   queued_timeout = "60"
-  service_role   = var.module_common.iam_codebuild_arn
+  service_role   = var.data_resources.iam_codebuild_arn
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -18,7 +18,7 @@ resource "aws_codebuild_project" "main" {
     // K8S MANIFEST
     environment_variable {
       name  = "PROJECT_NAME"
-      value = var.module_common.secretsmanager.project_name
+      value = var.data_resources.project_name
       type  = "PLAINTEXT"
     }
     environment_variable {
@@ -28,7 +28,7 @@ resource "aws_codebuild_project" "main" {
     }
     environment_variable {
       name  = "VPC_ID"
-      value = var.module_common.vpc_id
+      value = var.data_resources.vpc_id
       type  = "PLAINTEXT"
     }
 
@@ -40,19 +40,19 @@ resource "aws_codebuild_project" "main" {
     }
     environment_variable {
       name  = "DOCKER_USER"
-      value = var.module_common.secretsmanager.docker_user
+      value = "jesusmonda"
       type  = "PLAINTEXT"
     }
 
     environment_variable {
       name  = "DOCKER_TOKEN"
-      value = var.module_common.secretsmanager.docker_token
+      value = var.data_resources.secretsmanager.docker_token
       type  = "PLAINTEXT"
     }
 
     environment_variable {
       name  = "AWS_CLUSTER_NAME"
-      value = var.module_common.eks_cluster_name
+      value = var.data_resources.cluster_name
       type  = "PLAINTEXT"
     }
   }
@@ -83,5 +83,5 @@ resource "aws_codebuild_webhook" "main" {
 resource "aws_codebuild_source_credential" "main" {
   auth_type   = "PERSONAL_ACCESS_TOKEN"
   server_type = "GITHUB"
-  token       = var.module_common.secretsmanager.github_token
+  token       = var.data_resources.secretsmanager.github_token
 }

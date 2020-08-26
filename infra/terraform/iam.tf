@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild" {
-  name = "${local.secretsmanager.project_name}-api_codebuild"
+  name = "${var.project_name}-api_codebuild"
 
   assume_role_policy = <<EOF
 {
@@ -52,13 +52,6 @@ resource "aws_iam_role_policy" "main" {
         "ec2:DescribeSubnets",
         "ec2:DescribeSecurityGroups",
         "ec2:DescribeVpcs"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ssm:GetParameters"
       ],
       "Resource": "*"
     },

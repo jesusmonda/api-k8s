@@ -1,4 +1,4 @@
-# Application Load Balancer (ALB) Ingress Controller Deployment Manifest.
+VPC_ID# Application Load Balancer (ALB) Ingress Controller Deployment Manifest.
 # This manifest details sensible defaults for deploying an ALB Ingress Controller.
 # GitHub: https://github.com/kubernetes-sigs/aws-alb-ingress-controller
 apiVersion: apps/v1
@@ -40,7 +40,7 @@ spec:
 
             # AWS VPC ID this ingress controller will use to create AWS resources.
             # If unspecified, it will be discovered from ec2metadata.
-            - --aws-vpc-id=${VPC_ID}
+            - --aws-vpc-id=${}
 
             # AWS region this ingress controller will operate in.
             # If unspecified, it will be discovered from ec2metadata.

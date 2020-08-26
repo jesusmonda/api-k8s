@@ -1,5 +1,3 @@
-variable "module_common" {}
-
 variable "environment" {
   type = string
 }
@@ -12,3 +10,4 @@ variable "buildspec" {
 variable "domain" {
   type = string
 }
+variable "data_resources" {}

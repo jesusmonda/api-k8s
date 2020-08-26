@@ -1,51 +1,39 @@
 module "feature" {
   source = "./modules/app"
 
-  // module
-  module_common = module.common
-
   environment = "feature"
   branch      = "feature/*"
   buildspec   = "infra/codebuild/codebuild-feature-develop.yml"
-  domain = "-feature.jmonda.com"
+  domain      = "-feature.jmonda.com"
+  data_resources = {cluster_name: aws_eks_cluster.cluster.name, project_name: var.project_name, secretsmanager: jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), vpc_id: aws_vpc.vpc.id, iam_codebuild_arn: aws_iam_role.codebuild.arn}
 }
 
 module "develop" {
   source = "./modules/app"
 
-  // module
-  module_common = module.common
-
   environment = "develop"
   branch      = "develop"
   buildspec   = "infra/codebuild/codebuild-feature-develop.yml"
-  domain = ".jmonda.com"
+  domain      = ".jmonda.com"
+  data_resources = {cluster_name: aws_eks_cluster.cluster.name, project_name: var.project_name, secretsmanager: jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), vpc_id: aws_vpc.vpc.id, iam_codebuild_arn: aws_iam_role.codebuild.arn}
 }
 
 module "staging" {
   source = "./modules/app"
 
-  // module
-  module_common = module.common
-
   environment = "staging"
   branch      = "release"
   buildspec   = "infra/codebuild/codebuild-staging-production.yml"
-  domain = "staging.jmonda.com"
+  domain      = "staging.jmonda.com"
+  data_resources = {cluster_name: aws_eks_cluster.cluster.name, project_name: var.project_name, secretsmanager: jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), vpc_id: aws_vpc.vpc.id, iam_codebuild_arn: aws_iam_role.codebuild.arn}
 }
 
 module "production" {
   source = "./modules/app"
 
-  // module
-  module_common = module.common
-
   environment = "production"
   branch      = "master"
   buildspec   = "infra/codebuild/codebuild-staging-production.yml"
-  domain = "jmonda.com"
-}
-
-module "common" {
-  source = "./modules/common"
+  domain      = "jmonda.com"
+  data_resources = {cluster_name: aws_eks_cluster.cluster.name, project_name: var.project_name, secretsmanager: jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), vpc_id: aws_vpc.vpc.id, iam_codebuild_arn: aws_iam_role.codebuild.arn}
 }

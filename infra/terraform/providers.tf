@@ -1,20 +1,19 @@
 provider "aws" {
   version    = "~> 2.0"
-  region     = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  profile = "kobing"
+  region = "eu-west-1"
 }
 
 provider "kubernetes" {
-  load_config_file       = false
-  host                   = module.common.eks_cluster_endpoint
-  token                  = module.common.eks_cluster_token
-  cluster_ca_certificate = base64decode(module.common.eks_cluster_certificate_authority)
+  load_config_file       = true
+  host                   = aws_eks_cluster.cluster.endpoint
+  token                  = data.aws_eks_cluster_auth.eks_cluster.token
+  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
 }
 
 provider "kubectl" {
-  load_config_file       = false
-  host                   = module.common.eks_cluster_endpoint
-  token                  = module.common.eks_cluster_token
-  cluster_ca_certificate = base64decode(module.common.eks_cluster_certificate_authority)
+  load_config_file       = true
+  host                   = aws_eks_cluster.cluster.endpoint
+  token                  = data.aws_eks_cluster_auth.eks_cluster.token
+  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
 }
