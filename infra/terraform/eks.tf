@@ -16,9 +16,9 @@ resource "aws_eks_node_group" "node" {
   subnet_ids      = [aws_subnet.private1.id, aws_subnet.private2.id, aws_subnet.private3.id]
 
   scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
+    desired_size = 2
+    max_size     = 2
+    min_size     = 2
   }
 }
 
