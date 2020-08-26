@@ -54,6 +54,11 @@ resource "aws_iam_role_policy_attachment" "eks_node-AmazonEC2ContainerRegistryRe
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_node.name
 }
+resource "aws_iam_role_policy_attachment" "eks_node-ElasticLoadBalancingReadOnly" {
+  policy_arn = "arn:aws:iam::aws:policy/ElasticLoadBalancingReadOnly"
+  role       = aws_iam_role.eks_node.name
+}
+
 resource "aws_iam_role" "eks_cluster" {
   name = "${var.project_name}_eks-cluster"
 
