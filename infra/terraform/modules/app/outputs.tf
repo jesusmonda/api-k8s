@@ -1,4 +1,4 @@
 output "kubernete_namespace" {
-  value = {}
+  value      = {}
   depends_on = [kubernetes_namespace.main]
 }

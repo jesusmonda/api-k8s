@@ -1,7 +1,7 @@
 provider "aws" {
-  version    = "~> 2.0"
+  version = "~> 2.0"
   profile = "kobing"
-  region = "eu-west-1"
+  region  = "eu-west-1"
 }
 
 provider "kubernetes" {

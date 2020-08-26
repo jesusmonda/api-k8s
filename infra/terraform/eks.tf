@@ -58,6 +58,41 @@ resource "aws_iam_role_policy_attachment" "eks_node-ElasticLoadBalancingReadOnly
   policy_arn = "arn:aws:iam::aws:policy/ElasticLoadBalancingReadOnly"
   role       = aws_iam_role.eks_node.name
 }
+resource "aws_iam_policy" "security_group" {
+  name        = "securityGroup"
+
+  policy = jsonencode(
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:DeleteSecurityGroup",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:RevokeSecurityGroupIngress"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSecurityGroupReferences",
+                "ec2:DescribeStaleSecurityGroups",
+                "ec2:DescribeVpcs"
+            ],
+            "Resource": "*"
+        }
+    ]
+  })
+}
+resource "aws_iam_role_policy_attachment" "eks_node-securityGroup" {
+  policy_arn = aws_iam_policy.security_group.arn
+  role       = aws_iam_role.eks_node.name
+}
 
 resource "aws_iam_role" "eks_cluster" {
   name = "${var.project_name}_eks-cluster"

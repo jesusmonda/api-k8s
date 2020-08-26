@@ -97,7 +97,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.gw.id
   }
 
@@ -153,7 +153,7 @@ resource "aws_route_table_association" "public3" {
 
 //NAT GATEWAY
 resource "aws_eip" "nat" {
-  vpc      = true
+  vpc = true
 }
 resource "aws_nat_gateway" "gw" {
   allocation_id = aws_eip.nat.id
