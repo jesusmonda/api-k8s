@@ -83,15 +83,6 @@ resource "aws_subnet" "public3" {
   }
 }
 
-// INTERNET GATEWAY
-resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.vpc.id
-
-  tags = {
-    Name = "${var.project_name}"
-  }
-}
-
 // ROUTE TABLES PRIVATE
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
@@ -158,4 +149,15 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "gw" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public1.id
+}
+
+// INTERNET GATEWAY
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.vpc.id
+
+  tags = {
+    Name = "${var.project_name}"
+  }
+
+  depends_on = [aws_eks_cluster.cluster, aws_eks_node_group.node]  
 }

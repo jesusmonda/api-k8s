@@ -29,8 +29,6 @@ kind: Service
 metadata:
   name: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
   namespace: ${ENVIRONMENT}
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: ${DOMAIN}
 spec:
   selector:
     app: ${PROJECT_NAME}-api${CODEBUILD_WEBHOOK_TRIGGER}
@@ -48,6 +46,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: ${DOMAIN}
 spec:
   rules:
   - host: ${DOMAIN}

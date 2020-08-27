@@ -79,7 +79,7 @@ resource "kubectl_manifest" "rbac-role" {
 }
 
 resource "kubectl_manifest" "external-dns" {
-  yaml_body = templatefile("../k8s_manifest/external-dns.yaml", {EXTERNAL_DNS_ARN: aws_iam_role.external_dns.arn})
+  yaml_body = templatefile("../k8s_manifest/external-dns.yaml", {DOMAIN: var.domain, ZONEID: aws_route53_zone.primary.zone_id})
 }
 
 resource "kubectl_manifest" "eks_manager_role" {

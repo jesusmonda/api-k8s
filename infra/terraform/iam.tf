@@ -1,3 +1,4 @@
+// CODEBUILD
 resource "aws_iam_role" "codebuild" {
   name = "${var.project_name}-api_codebuild"
 
@@ -239,6 +240,26 @@ resource "aws_iam_role_policy" "alb" {
         "shield:ListProtections"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:ChangeResourceRecordSets"
+      ],
+      "Resource": [
+        "arn:aws:route53:::hostedzone/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "route53:ListHostedZones",
+        "route53:ListResourceRecordSets",
+        "route53:*"
+      ],
+      "Resource": [
+        "*"
+      ]
     }
   ]
 }
@@ -302,7 +323,8 @@ resource "aws_iam_role_policy" "external-dns" {
       "Effect": "Allow",
       "Action": [
         "route53:ListHostedZones",
-        "route53:ListResourceRecordSets"
+        "route53:ListResourceRecordSets",
+        "route53:*"
       ],
       "Resource": [
         "*"

@@ -4,7 +4,7 @@ module "feature" {
   environment    = "feature"
   branch         = "feature/*"
   buildspec      = "infra/codebuild/codebuild-feature-develop.yml"
-  domain         = "-feature.jmonda.com"
+  domain         = "-feature.${var.domain}"
   data_resources = { cluster_name : aws_eks_cluster.cluster.name, project_name : var.project_name, secretsmanager : jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), iam_codebuild_arn : aws_iam_role.codebuild.arn }
 }
 
@@ -14,7 +14,7 @@ module "develop" {
   environment    = "develop"
   branch         = "develop"
   buildspec      = "infra/codebuild/codebuild-feature-develop.yml"
-  domain         = ".jmonda.com"
+  domain         = ".${var.domain}"
   data_resources = { cluster_name : aws_eks_cluster.cluster.name, project_name : var.project_name, secretsmanager : jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), iam_codebuild_arn : aws_iam_role.codebuild.arn }
 }
 
@@ -24,7 +24,7 @@ module "staging" {
   environment    = "staging"
   branch         = "release"
   buildspec      = "infra/codebuild/codebuild-staging-production.yml"
-  domain         = "staging.jmonda.com"
+  domain         = "staging.${var.domain}"
   data_resources = { cluster_name : aws_eks_cluster.cluster.name, project_name : var.project_name, secretsmanager : jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), iam_codebuild_arn : aws_iam_role.codebuild.arn }
 }
 
@@ -34,6 +34,6 @@ module "production" {
   environment    = "production"
   branch         = "master"
   buildspec      = "infra/codebuild/codebuild-staging-production.yml"
-  domain         = "jmonda.com"
+  domain         = var.domain
   data_resources = { cluster_name : aws_eks_cluster.cluster.name, project_name : var.project_name, secretsmanager : jsondecode(data.aws_secretsmanager_secret_version.main.secret_string), iam_codebuild_arn : aws_iam_role.codebuild.arn }
 }
