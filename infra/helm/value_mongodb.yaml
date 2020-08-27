@@ -1,0 +1,9 @@
+architecture: replicaset
+replicaCount: 2
+pdb:
+  create: true
+metrics:
+  enabled: true
+auth:
+  rootPassword: admin
+  replicaSetKey: admin
