@@ -17,15 +17,12 @@ phases:
       # create_deployment:
       - apt update && apt install -y moreutils
       - envsubst < infra/k8s_manifest/deployment-feature-develop.yml | sponge infra/k8s_manifest/deployment-feature-develop.yml
-      - envsubst < infra/k8s_manifest/alb-ingress-controller.yml | sponge infra/k8s_manifest/alb-ingress-controller.yml
 
       # eks_credential:
       - aws eks update-kubeconfig --name ${AWS_CLUSTER_NAME}
 
       # show documents
-      - cat infra/k8s_manifest/alb-ingress-controller.yml
       - cat infra/k8s_manifest/deployment-feature-develop.yml
 
-      # kubectl_apply:
-      - kubectl apply -f infra/k8s_manifest/alb-ingress-controller.yml
+      # kubectl apply:
       - kubectl apply -f infra/k8s_manifest/deployment-feature-develop.yml

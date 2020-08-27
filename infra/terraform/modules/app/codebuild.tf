@@ -26,11 +26,6 @@ resource "aws_codebuild_project" "main" {
       value = var.domain
       type  = "PLAINTEXT"
     }
-    environment_variable {
-      name  = "VPC_ID"
-      value = var.data_resources.vpc_id
-      type  = "PLAINTEXT"
-    }
 
     // CODEBUILD
     environment_variable {

@@ -62,9 +62,14 @@ resource "kubernetes_config_map" "role" {
 
   data = {
     mapRoles = <<ROLES
-    - rolearn: ${aws_iam_role.codebuild.arn}
-      groups:
+    - groups:
       - system:masters
+      rolearn: ${aws_iam_role.codebuild.arn}
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: ${aws_iam_role.eks_node.arn}
+      username: system:node:{{EC2PrivateDNSName}}
     ROLES
   }
 }
@@ -74,5 +79,13 @@ resource "kubectl_manifest" "rbac-role" {
 }
 
 resource "kubectl_manifest" "external-dns" {
-  yaml_body = file("../k8s_manifest/external-dns.yml")
+  yaml_body = templatefile("../k8s_manifest/external-dns.yaml", {EXTERNAL_DNS_ARN: aws_iam_role.external_dns.arn})
+}
+
+resource "kubectl_manifest" "eks_manager_role" {
+  yaml_body = file("../k8s_manifest/eks-node-manager-role.yaml")
+}
+
+resource "kubectl_manifest" "alb_ingress_controller" {
+  yaml_body = templatefile("../k8s_manifest/alb-ingress-controller.yml", {AWS_CLUSTER_NAME: aws_eks_cluster.cluster.name, VPC_ID: aws_vpc.vpc.id})
 }
