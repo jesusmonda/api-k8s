@@ -8,6 +8,8 @@ resource "aws_codebuild_project" "main" {
     type = "NO_ARTIFACTS"
   }
 
+  source_version = var.branch
+
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = "aws/codebuild/standard:4.0"
@@ -70,7 +72,7 @@ resource "aws_codebuild_webhook" "main" {
 
     filter {
       type    = "HEAD_REF"
-      pattern = "refs/heads/${var.branch}"
+      pattern = var.branch
     }
   }
 }
