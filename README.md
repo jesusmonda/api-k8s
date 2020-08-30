@@ -6,7 +6,7 @@ You have to modify variables.tf file to specify project_name and domain values
 
 ### Deploy
 
-You have to create a secret manager with var.project_name_credentials name and create 2 secret key/value: github_token	and docker_token. 
+You have to create a secret manager with ${var.project_name}_credentials(for example: app_credentials) name and create 2 secret key/value: github_token	and docker_token. 
 1. Install providers:
 
     ```sh
