@@ -158,6 +158,4 @@ resource "aws_internet_gateway" "gw" {
   tags = {
     Name = "${var.project_name}"
   }
-
-  depends_on = [aws_eks_cluster.cluster, aws_eks_node_group.node]  
 }

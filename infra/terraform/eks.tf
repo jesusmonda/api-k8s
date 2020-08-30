@@ -7,6 +7,7 @@ resource "aws_eks_cluster" "cluster" {
     subnet_ids = [aws_subnet.public1.id, aws_subnet.public2.id, aws_subnet.public3.id]
   }
 
+  depends_on = [aws_nat_gateway.gw, aws_internet_gateway.gw]
 }
 
 resource "aws_eks_node_group" "node" {
@@ -20,6 +21,8 @@ resource "aws_eks_node_group" "node" {
     max_size     = 2
     min_size     = 2
   }
+
+  depends_on = [aws_nat_gateway.gw, aws_internet_gateway.gw]
 }
 
 data "aws_eks_cluster_auth" "eks_cluster" {

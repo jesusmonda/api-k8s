@@ -11,3 +11,4 @@ variable "domain" {
   type = string
 }
 variable "data_resources" {}
+variable "depends_node" {}

@@ -72,20 +72,30 @@ resource "kubernetes_config_map" "role" {
       username: system:node:{{EC2PrivateDNSName}}
     ROLES
   }
+
+  depends_on = [aws_eks_node_group.node]
 }
 
 resource "kubectl_manifest" "rbac-role" {
   yaml_body = file("../k8s_manifest/rbac-role.yml")
+
+  depends_on = [aws_eks_node_group.node]
 }
 
 resource "kubectl_manifest" "external-dns" {
   yaml_body = templatefile("../k8s_manifest/external-dns.yaml", {DOMAIN: var.domain, ZONEID: aws_route53_zone.primary.zone_id})
+
+  depends_on = [aws_eks_node_group.node]
 }
 
 resource "kubectl_manifest" "eks_manager_role" {
   yaml_body = file("../k8s_manifest/eks-node-manager-role.yaml")
+
+  depends_on = [aws_eks_node_group.node]
 }
 
 resource "kubectl_manifest" "alb_ingress_controller" {
   yaml_body = templatefile("../k8s_manifest/alb-ingress-controller.yml", {AWS_CLUSTER_NAME: aws_eks_cluster.cluster.name, VPC_ID: aws_vpc.vpc.id})
+
+  depends_on = [aws_eks_node_group.node]
 }
