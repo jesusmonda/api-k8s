@@ -1,6 +1,6 @@
 provider "aws" {
   version = "~> 2.0"
-  profile = "kobing"
+  profile = var.project_name
   region  = "eu-west-1"
 }
 

@@ -6,7 +6,7 @@ resource "kubernetes_config_map" "develop" {
 
   data = {
     NODE_ENV = "develop"
-    APP_NAME = "app_kobing"
+    APP_NAME = "app_${var.project_name}"
   }
 
   depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
@@ -20,7 +20,7 @@ resource "kubernetes_config_map" "production" {
 
   data = {
     NODE_ENV = "production"
-    APP_NAME = "app_kobing"
+    APP_NAME = "app_${var.project_name}"
   }
 
   depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
@@ -34,7 +34,7 @@ resource "kubernetes_config_map" "feature" {
 
   data = {
     NODE_ENV = "feature"
-    APP_NAME = "app_kobing"
+    APP_NAME = "app_${var.project_name}"
   }
 
   depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]
@@ -48,7 +48,7 @@ resource "kubernetes_config_map" "staging" {
 
   data = {
     NODE_ENV = "staging"
-    APP_NAME = "app_kobing"
+    APP_NAME = "app_${var.project_name}"
   }
 
   depends_on = [module.feature.kubernete_namespace, module.develop.kubernete_namespace, module.staging.kubernete_namespace, module.production.kubernete_namespace]

@@ -1,5 +1,5 @@
 data "aws_secretsmanager_secret" "main" {
-  name = "kobing_credentials"
+  name = "${var.project_name}_credentials"
 }
 
 data "aws_secretsmanager_secret_version" "main" {
